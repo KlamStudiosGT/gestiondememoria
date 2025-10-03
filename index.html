@@ -1,43 +1,490 @@
-    /* Bloque de Memoria SMARTPHONE - Modern Style (Paginación) */
-    #smartphone-memory .memory-block {
-        background-color: #eef2ff; /* Lavanda muy claro */
-        color: #312e81;
-        border: 1px solid #c7d2fe;
-        height: 70px; /* Frames más altos */
-        font-size: 0.9rem;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        font-weight: 700;
-    }
-    #smartphone-memory .assigned {
-        color: white;
-        border: none;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        animation: pulse-border 1.5s infinite alternate;
-    }
-    #smartphone-memory .assigned div {
-        padding: 4px 8px;
-        border-radius: 4px;
-        background-color: rgba(0,0,0,0.1);
-    }
-    
-    @keyframes pulse-border {
-        0% { transform: scale(1); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
-        100% { transform: scale(1.01); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.5); }
-    }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Memoria: Simulación Comparativa</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .system-card {
+            min-height: 600px;
+        }
+        .memory-block {
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+            border-radius: 4px;
+            overflow: hidden;
+            font-weight: 600;
+            line-height: 1.2;
+            padding: 2px;
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
 
-    .tab-btn {
-        padding: 10px 20px;
-        border-radius: 8px 8px 0 0;
-        font-weight: 700;
-        transition: background-color 0.3s, color 0.3s;
-        border: none;
-    }
-    .tab-btn.active {
-        background-color: #ffffff;
-        color: #4f46e5;
-        border-top: 3px solid #4f46e5;
-        border-left: 1px solid #e5e7eb;
-        border-right: 1px solid #e5e7eb;
-        margin-bottom: -2px; /* Superponer el borde inferior */
-    }
-</style>
+        /* Bloque de Memoria APOLO - Retro Style */
+        #apollo-memory .memory-block {
+            background-color: #d1d5db; /* Fondo gris claro industrial */
+            color: #1f2937;
+            border: 2px solid #4b5563;
+            font-family: monospace;
+            height: 60px; /* Altura fija para mayor impacto */
+            box-shadow: 2px 2px 0 #4b5563;
+        }
+        #apollo-memory .used-segment {
+            transition: width 0.3s ease;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            z-index: 10;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            border-right: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        #apollo-memory .free-segment {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1f2937;
+            background-color: #d1d5db;
+            z-index: 5;
+            font-size: 0.7rem;
+            border-left: 1px dashed #6b7280;
+        }
+        
+        /* Bloque de Memoria SMARTPHONE - Modern Style (Paginación) */
+        #smartphone-memory .memory-block {
+            background-color: #eef2ff; /* Lavanda muy claro */
+            color: #312e81;
+            border: 1px solid #c7d2fe;
+            height: 70px; /* Frames más altos */
+            font-size: 0.9rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            font-weight: 700;
+        }
+        #smartphone-memory .assigned {
+            color: white;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: pulse-border 1.5s infinite alternate;
+        }
+        #smartphone-memory .assigned div {
+            padding: 4px 8px;
+            border-radius: 4px;
+            background-color: rgba(0,0,0,0.1);
+        }
+        
+        @keyframes pulse-border {
+            0% { transform: scale(1); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
+            100% { transform: scale(1.01); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.5); }
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 700;
+            transition: background-color 0.3s, color 0.3s;
+            border: none;
+        }
+        .tab-btn.active {
+            background-color: #ffffff;
+            color: #4f46e5;
+            border-top: 3px solid #4f46e5;
+            border-left: 1px solid #e5e7eb;
+            border-right: 1px solid #e5e7eb;
+            margin-bottom: -2px; /* Superponer el borde inferior */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="max-w-6xl mx-auto bg-white p-6 sm:p-10 rounded-xl shadow-2xl">
+        <header class="mb-8 border-b pb-4">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-indigo-700 mb-2">
+                Simulador de Gestión de Memoria: Una Perspectiva Histórica
+            </h1>
+            <p class="text-gray-600 text-xl">
+                Compara la rigidez del Apollo 11 con la flexibilidad de un Smartphone moderno.
+            </p>
+        </header>
+
+        <!-- Controles de Navegación de Pestañas -->
+        <div class="flex border-b-2 border-gray-200 mb-6">
+            <button id="tab-apollo" class="tab-btn active" onclick="switchSystem('apollo')">
+                🚀 APOLLO 11 (128 KB)
+            </button>
+            <button id="tab-smartphone" class="tab-btn" onclick="switchSystem('smartphone')">
+                📱 SMARTPHONE (8 GB)
+            </button>
+        </div>
+
+        <!-- Contenedor del Simulador -->
+        <div id="simulator-container" class="grid lg:grid-cols-3 gap-8">
+            
+            <!-- Columna de Controles y Explicación -->
+            <div class="lg:col-span-1 p-5 bg-indigo-50 rounded-xl shadow-lg space-y-6">
+                <h3 class="text-2xl font-bold text-indigo-800" id="system-title"></h3>
+                <p class="text-gray-700 text-sm" id="system-description"></p>
+
+                <!-- Leyenda de Procesos -->
+                <div class="pt-4 border-t border-indigo-200">
+                    <h4 class="text-xl font-semibold text-gray-800 mb-3">Leyenda y Procesos</h4>
+                    <div id="process-list" class="space-y-2 mb-4">
+                        <!-- Procesos generados por JS -->
+                    </div>
+                </div>
+
+                <!-- Botones y Mensajes -->
+                <div class="pt-4 border-t border-indigo-200">
+                    <button onclick="loadProcess()" id="load-btn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg shadow-xl transition duration-200 mb-2 transform hover:scale-[1.01]">
+                        Cargar Siguiente Proceso
+                    </button>
+                    <button onclick="resetMemory()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg shadow-xl transition duration-200 transform hover:scale-[1.01]">
+                        Reiniciar Simulación
+                    </button>
+                    <p id="fragmentation-msg" class="mt-4 p-3 rounded-lg text-sm font-bold text-red-800 bg-yellow-200 border-2 border-red-500 hidden">
+                        <!-- Mensajes de fragmentación / errores -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- Columna de Visualización de Memoria (Dinámica) -->
+            <div class="lg:col-span-2 p-5 bg-gray-200 rounded-xl shadow-inner system-card">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4" id="memory-title"></h3>
+                <div id="memory-visualizer" class="p-4 rounded-lg h-5/6 space-y-2 flex flex-col justify-between">
+                    <!-- Bloques de memoria inyectados por JS -->
+                </div>
+                <p class="text-center text-sm mt-3 text-gray-600">
+                    La altura de los bloques representa la proporción de la memoria total.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE LOS SISTEMAS ---
+
+        // Función de utilidad para obtener colores de Tailwind
+        function getColorHex(colorClass) {
+            const colors = {
+                'bg-yellow-400': '#facc15', 'bg-red-600': '#dc2626', 'bg-green-500': '#22c55e', 'bg-gray-400': '#9ca3af',
+                'bg-indigo-600': '#4f46e5', 'bg-purple-600': '#9333ea', 'bg-teal-500': '#14b8a6', 'bg-yellow-500': '#eab308'
+            };
+            return colors[colorClass] || '#cccccc';
+        }
+
+        const APOLLO_CONFIG = {
+            name: "Apollo Guidance Computer (AGC)",
+            totalSize: "128 KB",
+            allocationStrategy: "Particionamiento Fijo (First-Fit)",
+            description: "<strong>Memoria Estricta:</strong> La memoria (Core Memory) es ultralimitada y se divide en particiones de tamaño fijo. Si un proceso no cabe en una partición, es rechazado. Usa la primera partición que encuentra (First-Fit), lo que causa **Fragmentación Interna**.",
+            memory: [
+                { id: 1, size: 32, unit: 'KB', used: 0, processId: null, totalSize: 32 },
+                { id: 2, size: 16, unit: 'KB', used: 0, processId: null, totalSize: 16 },
+                { id: 3, size: 48, unit: 'KB', used: 0, processId: null, totalSize: 48 },
+                { id: 4, size: 32, unit: 'KB', used: 0, processId: null, totalSize: 32 },
+            ], // Total 128 KB
+            processes: [
+                { id: 'P_NAV', size: 10, unit: 'KB', color: 'bg-yellow-400', name: 'Navegación' },
+                { id: 'P_ENG', size: 40, unit: 'KB', color: 'bg-red-600', name: 'Motor/Propulsión' }, // Rechazado en P1, P2; Aceptado en P3 (48KB)
+                { id: 'P_MON', size: 20, unit: 'KB', color: 'bg-green-500', name: 'Monitoreo' },
+                { id: 'P_FAIL', size: 33, unit: 'KB', color: 'bg-gray-400', name: 'Autodiagnóstico' }, // Demuestra que es más grande que cualquier partición restante
+            ],
+            totalMem: 128
+        };
+
+        const SMARTPHONE_CONFIG = {
+            name: "Smartphone Moderno (Android/iOS)",
+            totalSize: "8 GB",
+            allocationStrategy: "Paginación, Memoria Virtual y Asignación Dinámica",
+            description: "<strong>Memoria Flexible:</strong> La memoria se divide en muchos marcos pequeños (simulados aquí como bloques de 1GB). Los procesos grandes se dividen en páginas y se cargan en marcos **no contiguos**. Minimiza la fragmentación externa y permite la **Multiprogramación** intensa.",
+            memory: [ // Representamos 8 bloques de 1GB cada uno (Frames)
+                { id: 1, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 2, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 3, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 4, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 5, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 6, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 7, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+                { id: 8, size: 1024, unit: 'MB', used: 0, processId: null, totalSize: 1024 },
+            ], // Total 8192 MB (8GB)
+            processes: [
+                { id: 'P_OS', size: 1536, unit: 'MB', color: 'bg-indigo-600', name: 'Sistema Operativo (1.5GB)' }, // Necesita 2 marcos
+                { id: 'P_GAME', size: 3072, unit: 'MB', color: 'bg-purple-600', name: 'Juego 3D (3GB)' }, // Necesita 3 marcos
+                { id: 'P_CHAT', size: 512, unit: 'MB', color: 'bg-teal-500', name: 'App Mensajería (512MB)' }, // Necesita 1 marco
+                { id: 'P_WEB', size: 1024, unit: 'MB', color: 'bg-yellow-500', name: 'Navegador (1GB)' }, // Necesita 1 marco
+            ],
+            totalMem: 8192
+        };
+
+        let currentSystem = 'apollo';
+        let currentConfig = APOLLO_CONFIG;
+        let memoryState = JSON.parse(JSON.stringify(APOLLO_CONFIG.memory));
+        let currentProcessIndex = 0;
+        
+        // Elementos DOM
+        const visualizerEl = document.getElementById('memory-visualizer');
+        const processListEl = document.getElementById('process-list');
+        const loadBtn = document.getElementById('load-btn');
+        const fragMsgEl = document.getElementById('fragmentation-msg');
+        const systemTitleEl = document.getElementById('system-title');
+        const systemDescEl = document.getElementById('system-description');
+        const memoryTitleEl = document.getElementById('memory-title');
+        const tabApollo = document.getElementById('tab-apollo');
+        const tabSmartphone = document.getElementById('tab-smartphone');
+
+
+        // --- FUNCIONES DE GESTIÓN DE INTERFAZ Y RENDERIZADO ---
+
+        function switchSystem(system) {
+            currentSystem = system;
+            currentConfig = system === 'apollo' ? APOLLO_CONFIG : SMARTPHONE_CONFIG;
+            
+            tabApollo.classList.remove('active', 'bg-white');
+            tabSmartphone.classList.remove('active', 'bg-white');
+            document.getElementById(`tab-${system}`).classList.add('active', 'bg-white');
+
+            resetMemory();
+            
+            systemTitleEl.textContent = currentConfig.name;
+            systemDescEl.innerHTML = currentConfig.description;
+            memoryTitleEl.textContent = `Memoria RAM (${currentConfig.totalSize}) - ${currentConfig.allocationStrategy}`;
+
+            visualizerEl.id = system === 'apollo' ? 'apollo-memory' : 'smartphone-memory';
+            visualizerEl.classList.remove('apollo-memory', 'smartphone-memory');
+            visualizerEl.classList.add(`${system}-memory`);
+        }
+
+        function renderMemory() {
+            visualizerEl.innerHTML = '';
+            
+            memoryState.forEach(block => {
+                const blockEl = document.createElement('div');
+                blockEl.classList.add('memory-block');
+                
+                // Calculamos la altura relativa basada en el tamaño total del bloque / memoria total
+                const heightPercent = (block.totalSize / currentConfig.totalMem) * 100;
+                blockEl.style.flexGrow = heightPercent; // Usamos flexGrow para que ocupe el espacio correcto
+                blockEl.style.minHeight = '40px'; // Altura mínima para que sea visible
+
+                if (block.processId) {
+                    const process = currentConfig.processes.find(p => p.id === block.processId);
+                    const processColorClass = process ? process.color : 'bg-gray-400';
+                    const internalFragmentation = block.totalSize - block.used;
+                    
+                    if (currentSystem === 'apollo') {
+                        // APOLLO: Visualización de asignación continua y fragmentación
+                        const usedPercent = (block.used / block.totalSize) * 100;
+                        const fragPercent = 100 - usedPercent;
+
+                        blockEl.innerHTML = `
+                            <div class="used-segment ${processColorClass}" style="width: ${usedPercent}%; background-color: ${getColorHex(processColorClass)};">
+                                <strong>${block.processId}</strong><br>(${block.used}${block.unit})
+                            </div>
+                            <div class="free-segment" style="width: ${fragPercent}%;">
+                                ${internalFragmentation > 0 ? `Frag. Int. ${internalFragmentation}${block.unit}` : ''}
+                            </div>
+                        `;
+                    } else {
+                        // SMARTPHONE: Visualización de Paginación (Frames)
+                        const remaining = block.totalSize - block.used;
+                        const usedColor = getColorHex(processColorClass);
+
+                        blockEl.classList.add('assigned');
+                        blockEl.style.backgroundColor = usedColor;
+                        
+                        blockEl.innerHTML = `
+                            <div class="text-center">
+                                <span class="text-sm">MARCO #${block.id}</span>
+                                <strong class="text-lg">${block.processId}</strong><br>
+                                <span class="text-xs opacity-80">Ocupado: ${block.used}${block.unit}</span>
+                                ${remaining > 0 ? `<span class="text-xs opacity-80 block">(+${remaining}${block.unit} Frag. Int.)</span>` : ''}
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Bloque Libre
+                    if (currentSystem === 'apollo') {
+                        blockEl.innerHTML = `LIBRE <br> (${block.totalSize}${block.unit}) - ${block.id}`;
+                        blockEl.style.backgroundColor = '#e5e7eb';
+                        blockEl.style.boxShadow = '2px 2px 0 #4b5563';
+                    } else {
+                        // Smartphone Frame Libre
+                        blockEl.classList.remove('assigned');
+                        blockEl.style.backgroundColor = '#eef2ff';
+                        blockEl.innerHTML = `<span class="text-green-600">MARCO LIBRE #${block.id}</span><br>(${block.totalSize}${block.unit})`;
+                    }
+                }
+
+                visualizerEl.appendChild(blockEl);
+            });
+        }
+
+        function renderProcessList() {
+            processListEl.innerHTML = '';
+            const processQueue = currentConfig.processes;
+
+            processQueue.forEach((process, index) => {
+                const isLoaded = memoryState.some(m => m.processId === process.id);
+                const isNext = index === currentProcessIndex;
+                
+                let statusText = 'Pendiente';
+                let statusColor = 'text-gray-500';
+                
+                if (isLoaded) {
+                    statusText = 'Cargado';
+                    statusColor = 'text-blue-600';
+                } else if (isNext) {
+                    statusText = 'Siguiente a Cargar';
+                    statusColor = 'text-indigo-600 font-bold';
+                }
+
+                const listItem = document.createElement('div');
+                listItem.className = `p-3 ${process.color} bg-opacity-30 rounded-lg flex justify-between items-center transition duration-300 ${isLoaded ? 'opacity-50' : 'opacity-100'}`;
+                listItem.innerHTML = `
+                    <span class="font-bold text-gray-800">${process.name}</span>
+                    <span class="text-xs ${statusColor} text-right">${process.size}${process.unit} / ${statusText}</span>
+                `;
+                processListEl.appendChild(listItem);
+            });
+            
+            if (currentProcessIndex >= processQueue.length) {
+                loadBtn.textContent = 'Simulación Completa';
+                loadBtn.disabled = true;
+                loadBtn.classList.replace('bg-green-600', 'bg-gray-400');
+                loadBtn.classList.replace('hover:bg-green-700', 'hover:bg-gray-400');
+            } else {
+                loadBtn.textContent = `Cargar: ${processQueue[currentProcessIndex].name} (${processQueue[currentProcessIndex].size}${processQueue[currentProcessIndex].unit})`;
+                loadBtn.disabled = false;
+                loadBtn.classList.replace('bg-gray-400', 'bg-green-600');
+                loadBtn.classList.replace('hover:bg-gray-400', 'hover:bg-green-700');
+            }
+        }
+
+        // --- FUNCIONES DE SIMULACIÓN ---
+
+        function loadProcess() {
+            if (currentProcessIndex >= currentConfig.processes.length) return;
+
+            const processToLoad = currentConfig.processes[currentProcessIndex];
+            fragMsgEl.classList.add('hidden');
+            fragMsgEl.textContent = '';
+
+            let success = false;
+            let allocationInfo = null;
+            let usedBlocks = [];
+
+            if (currentSystem === 'apollo') {
+                // APOLLO: Particionamiento Fijo (First-Fit)
+                const targetBlock = memoryState.find(block => 
+                    !block.processId && block.totalSize >= processToLoad.size
+                );
+
+                if (targetBlock) {
+                    targetBlock.processId = processToLoad.id;
+                    targetBlock.used = processToLoad.size;
+                    success = true;
+
+                    const difference = targetBlock.totalSize - processToLoad.size;
+                    if (difference > 0) {
+                        allocationInfo = `¡Fragmentación Interna! El proceso usa ${processToLoad.size}${processToLoad.unit}, pero se asigna la partición de ${targetBlock.totalSize}${targetBlock.unit}. Pérdida de ${difference}${targetBlock.unit}.`;
+                        fragMsgEl.classList.replace('text-red-800', 'text-yellow-800');
+                        fragMsgEl.classList.replace('bg-yellow-200', 'bg-orange-100');
+                        fragMsgEl.classList.replace('border-red-500', 'border-orange-500');
+                    } else {
+                        allocationInfo = `Carga exitosa en el Particionamiento Fijo (First-Fit). No hubo fragmentación interna.`;
+                        fragMsgEl.classList.replace('text-red-800', 'text-green-800');
+                        fragMsgEl.classList.replace('bg-yellow-200', 'bg-green-100');
+                        fragMsgEl.classList.replace('border-red-500', 'border-green-500');
+                    }
+                } else {
+                    allocationInfo = `ERROR: ${processToLoad.name} es demasiado grande o no hay un hueco (partición) disponible en el sistema Apollo. Rechazo por estricta asignación fija.`;
+                }
+            } else if (currentSystem === 'smartphone') {
+                // SMARTPHONE: Paginación (Asignación en frames no contiguos)
+                const FRAME_SIZE = 1024; // 1GB
+                const blocksNeeded = Math.ceil(processToLoad.size / FRAME_SIZE);
+                let freeBlocks = memoryState.filter(block => !block.processId);
+                
+                if (freeBlocks.length >= blocksNeeded) {
+                    let remainingSize = processToLoad.size;
+                    
+                    for (let i = 0; i < blocksNeeded; i++) {
+                        const block = freeBlocks[i];
+                        block.processId = processToLoad.id;
+                        
+                        // Si es el último bloque y tiene un residuo
+                        if (i === blocksNeeded - 1 && remainingSize > 0 && remainingSize < FRAME_SIZE) {
+                            block.used = remainingSize;
+                            allocationInfo = `¡Fragmentación Interna! El último marco solo usa ${remainingSize}${processToLoad.unit}.`;
+                        } else {
+                            block.used = FRAME_SIZE;
+                        }
+                        remainingSize -= FRAME_SIZE;
+                        usedBlocks.push(block.id);
+                    }
+                    success = true;
+                    
+                    if (!allocationInfo) {
+                        allocationInfo = `Carga exitosa: Proceso fragmentado y cargado exactamente en ${blocksNeeded} marcos.`;
+                    } else {
+                        allocationInfo = `Carga exitosa: Proceso dividido y cargado en marcos no contiguos (${usedBlocks.join(', ')}). ${allocationInfo}`;
+                    }
+
+                    fragMsgEl.classList.replace('text-red-800', 'text-green-800');
+                    fragMsgEl.classList.replace('bg-yellow-200', 'bg-green-100');
+                    fragMsgEl.classList.replace('border-red-500', 'border-green-500');
+                } else {
+                    allocationInfo = `ERROR: No hay suficientes marcos libres (${blocksNeeded} necesarios) para cargar ${processToLoad.name}.`;
+                }
+            }
+            
+            if (allocationInfo) {
+                fragMsgEl.classList.remove('hidden');
+                fragMsgEl.textContent = allocationInfo;
+            }
+            
+            currentProcessIndex++;
+            renderMemory();
+            renderProcessList();
+        }
+
+        function resetMemory() {
+            memoryState = JSON.parse(JSON.stringify(currentConfig.memory));
+            currentProcessIndex = 0;
+            fragMsgEl.classList.add('hidden');
+            fragMsgEl.classList.replace('text-yellow-800', 'text-red-800');
+            fragMsgEl.classList.replace('bg-orange-100', 'bg-yellow-200');
+            fragMsgEl.classList.replace('border-orange-500', 'border-red-500');
+            fragMsgEl.classList.replace('text-green-800', 'text-red-800');
+            fragMsgEl.classList.replace('bg-green-100', 'bg-yellow-200');
+            fragMsgEl.classList.replace('border-green-500', 'border-red-500');
+            renderMemory();
+            renderProcessList();
+        }
+
+        // --- INICIALIZACIÓN ---
+
+        window.onload = () => {
+            switchSystem('apollo'); // Iniciar en el sistema Apollo por defecto
+        };
+    </script>
+</body>
+</html>
