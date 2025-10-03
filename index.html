@@ -1,0 +1,43 @@
+    /* Bloque de Memoria SMARTPHONE - Modern Style (Paginación) */
+    #smartphone-memory .memory-block {
+        background-color: #eef2ff; /* Lavanda muy claro */
+        color: #312e81;
+        border: 1px solid #c7d2fe;
+        height: 70px; /* Frames más altos */
+        font-size: 0.9rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        font-weight: 700;
+    }
+    #smartphone-memory .assigned {
+        color: white;
+        border: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        animation: pulse-border 1.5s infinite alternate;
+    }
+    #smartphone-memory .assigned div {
+        padding: 4px 8px;
+        border-radius: 4px;
+        background-color: rgba(0,0,0,0.1);
+    }
+    
+    @keyframes pulse-border {
+        0% { transform: scale(1); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
+        100% { transform: scale(1.01); box-shadow: 0 4px 15px rgba(79, 70, 229, 0.5); }
+    }
+
+    .tab-btn {
+        padding: 10px 20px;
+        border-radius: 8px 8px 0 0;
+        font-weight: 700;
+        transition: background-color 0.3s, color 0.3s;
+        border: none;
+    }
+    .tab-btn.active {
+        background-color: #ffffff;
+        color: #4f46e5;
+        border-top: 3px solid #4f46e5;
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+        margin-bottom: -2px; /* Superponer el borde inferior */
+    }
+</style>
